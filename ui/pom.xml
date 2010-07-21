@@ -37,6 +37,7 @@
 
   <modules>
     <module>web</module>
+    <module>testclient</module>
   </modules>
 
 </project>
