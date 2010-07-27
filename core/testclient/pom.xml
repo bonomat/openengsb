@@ -29,18 +29,19 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.openengsb.core</groupId>
-    <artifactId>openengsb-core-testclient</artifactId>
+    <groupId>org.openengsb.core.testclient</groupId>
+    <artifactId>openengsb-core-testclient-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <name>OpenEngSB :: Core :: Test Client</name>
+    <name>OpenEngSB :: Core :: Test Client :: Parent</name>
 
     <packaging>pom</packaging>
 
     <description>An OPENENGSB Testclient</description>
 
     <modules>
-        <module>bundle</module>
+       <!-- <module>bundle</module>-->
+        <module>webinterface</module>
     </modules>
 
 </project>
