@@ -18,12 +18,13 @@
 package org.openengsb.ui.testclient;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 public class Index extends BasePage {
 
 	public Index() {
-       
-		add(new Label("test", "test"));
+
+        this.add(new MessagePanel("messagePanel"));
 	}
 
 }
