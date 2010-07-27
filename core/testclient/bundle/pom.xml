@@ -17,9 +17,8 @@
 
 -->
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.openengsb.core</groupId>
@@ -27,43 +26,46 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <description>
-        A client to send messages to the bus.
-    </description>
+    <description>A client to send messages to the bus.</description>
 
     <name>OpenEngSB :: Core :: Test Client :: Test Client Bundle</name>
 
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.openengsb.core.testclient</groupId>
+    <artifactId>openengsb-core-testclient-bundle</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
     <packaging>bundle</packaging>
 
-
     <properties>
-        <bundle.symbolicName>org.openengsb.core.testclient</bundle.symbolicName>
-        <bundle.namespace>org.openengsb.core.testclient</bundle.namespace>
+        <bundle.symbolicName>org.openengsb.core.testclient.bundle</bundle.symbolicName>
+        <bundle.namespace>org.openengsb.core.testclient.bundle</bundle.namespace>
     </properties>
 
     <dependencies>
-    <dependency>
-      <groupId>org.apache.servicemix</groupId>
-      <artifactId>servicemix-jms</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.activemq</groupId>
-        <artifactId>activemq-core</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.activemq</groupId>
-        <artifactId>activemq-pool</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>activemq</groupId>
-      <artifactId>activemq-spring</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-    </dependency>
-    
-  </dependencies>
+        <dependency>
+            <groupId>org.apache.servicemix</groupId>
+            <artifactId>servicemix-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-pool</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>activemq</groupId>
+            <artifactId>activemq-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+
+    </dependencies>
 
 
     <build>
@@ -90,5 +92,5 @@
         </plugins>
     </build>
 
-    
+
 </project>
