@@ -198,3 +198,33 @@ div.tabRowContent {
   padding: 25px;
   color: #fff;
 }
+
+#logo {
+    height:160px;
+    background:transparent url("../images/openengsb_small.png") no-repeat scroll top right;
+}
+
+#logo h1.pageTitle {
+    display:block;
+    height:100%;
+    margin:0;
+    padding:0;
+    position:absolute;
+    width:100%;
+}
+
+#logo h1 {
+    left:-9000px;
+    position:absolute;
+    top:-9000px;
+}
+
+.pageLogo {
+	width:100%;
+}
+
+.pageLogo img {
+    margin:20px 0 0 0;
+    position:absolute;
+    right:0px;
+}
