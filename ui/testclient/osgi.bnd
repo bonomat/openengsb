@@ -14,7 +14,7 @@
 #   limitations under the License.
 #-----------------------------------------------------------------
 
-Web-ContextPath: testclient
+Web-ContextPath: openengsb
 
 Bundle-ClassPath: .,WEB-INF/classes,\
 WEB-INF/lib/*.jar
