@@ -15,5 +15,4 @@
 #-----------------------------------------------------------------
 
 
-Dynamic-ImportPackage: *
-Embed-Dependency: *;scope=compile|runtime;type=!pom;
+Embed-Dependency: *;scope=compile|runtime;type=!pom;                                               git st
