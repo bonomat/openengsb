@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-   Copyright 2010 OpenEngSB Division, Vienna University of Technology
+   Copyright 2009 OpenEngSB Division, Vienna University of Technology
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,70 +16,93 @@
    limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <artifactId>openengsb-parent</artifactId>
-        <groupId>org.openengsb</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
-    <artifactId>openengsb-domains-toolabstraction-facebook</artifactId>
-    <name>openengsb-domains-toolabstraction-facebook</name>
-    <packaging>jar</packaging>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.openengsb</groupId>
-            <artifactId>openengsb-workflow-domains</artifactId>
-        </dependency>
-
-        <!-- Springframework dependencies -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-        </dependency>
-
-        <!-- facebook connector api-->
-        <dependency>
-            <groupId>com.google.code.facebookapi</groupId>
-            <artifactId>facebook-java-api</artifactId>
-        </dependency>
-        <!--http components -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-        </dependency>
-        <!-- logging support -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
         
-
-        <!--  servicemix depedencies -->
-        <dependency>
-            <groupId>org.apache.servicemix</groupId>
-            <artifactId>servicemix-http</artifactId>
-        </dependency>
-
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-        </dependency>
-    </dependencies>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 
-</project>
+  <parent>
+    <groupId>org.openengsb.domains.toolabstraction</groupId>
+    <artifactId>openengsb-domains-toolabstraction-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <description>The core implementation of the facebook connector.</description>
+  <repositories>
+    <repository>
+      <id>repository.springsource.com.release</id>
+      <name>SpringSource OBR - Release</name>
+      <url>http://repository.springsource.com/maven/bundles/release</url>
+    </repository>
+    <repository>
+      <id>repository.springsource.com.external</id>
+      <name>SpringSource OBR - External</name>
+      <url>http://repository.springsource.com/maven/bundles/external</url>
+    </repository>
+  </repositories>
+
+  <name>OpenEngSB :: Domains :: Tool Abstraction :: Facebook</name>
+
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.openengsb.domains.toolabstraction</groupId>
+  <artifactId>openengsb-domains-toolabstraction-facebook</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <packaging>bundle</packaging>
+
+  <properties>
+    <bundle.symbolicName>org.openengsb.domains.toolabstraction.facebook</bundle.symbolicName>
+    <bundle.namespace>org.openengsb.domains.toolabstraction.facebook</bundle.namespace>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>com.google.code.facebookapi</groupId>
+      <artifactId>facebook-java-api</artifactId>
+      <version>${facebookAPI.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.facebookapi</groupId>
+      <artifactId>facebook-java-api-schema</artifactId>
+      <version>${facebookAPI.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>com.springsource.org.apache.commons.httpclient</artifactId>
+      <version>${httpclient.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+  </dependencies>
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>${plugin.bundle.version}</version>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>  

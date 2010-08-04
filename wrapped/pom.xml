@@ -39,6 +39,7 @@
 
   <modules>
     <module>org.apache.wicket</module>
+    <module>com.google.code.facebookapi</module>
   </modules>
 
   <build>
