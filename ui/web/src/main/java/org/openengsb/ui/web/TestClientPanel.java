@@ -18,14 +18,14 @@
 package org.openengsb.ui.web;
 
 import org.apache.wicket.markup.html.basic.Label;
-import org.openengsb.core.config.ServiceManager;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.Panel;
 
-public class TestClientPage extends BasePage {
+public class TestClientPanel extends Panel {
 
-    public TestClientPage() {
-
-        this.add(new Label("testclient.header","Test Client"));
-        this.add(new TestClientPanel("testclient.panel"));
+    public TestClientPanel(String id) {
+        super(id);
+        Form form = new Form("testclientForm");
+        
     }
-
 }
