@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -91,6 +92,9 @@ public class Index extends BasePage {
                 });
             }
         });
-	}
+
+        add(new BookmarkablePageLink("testclient", TestClientPage.class));
+
+    }
 
 }
