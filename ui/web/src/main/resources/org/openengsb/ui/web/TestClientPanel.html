@@ -20,7 +20,35 @@
 <body>
     <wicket:panel>
         <!-- panel start -->
+       <form wicket:id="testclientForm.form">
+           <div id="header">
+               <td colspan="8">
+                   <wicket:message key="testclientForm.context">[testclientForm.context]</wicket:message>
+                   <input wicket:id="testclientForm.messageContext" type="text" size="5"/>
 
+                   <wicket:message key="testclientForm.endpoint">[testclientForm.endpoint]</wicket:message>
+                   
+                   <select wicket:id="testclientForm.managedServices"></select>
+
+                   <wicket:message key="testclientForm.operation">[testclientForm.operation]</wicket:message>
+
+                   <wicket:message key="testclientForm.mep">[testclientForm.mep]</wicket:message>
+
+               </td>
+           </div>
+           <br/>
+           <textarea wicket:id="testclientForm.messageContent" rows="20"
+                     cols="40">[testclientForm.messageContent]</textarea>
+
+           <br/>
+
+           <div id="buttons">
+               <td colspan="2">
+                   <input type="submit" wicket:id="testclientForm.send" value="send"/>
+                   <input type="submit" wicket:id="testclientForm.reset" value="reset"/>
+               </td>
+           </div>
+        </form>
     </wicket:panel>
 </body>
 </html>
