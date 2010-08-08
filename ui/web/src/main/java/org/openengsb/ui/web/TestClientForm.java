@@ -17,30 +17,92 @@
  */
 package org.openengsb.ui.web;
 
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.velocity.test.provider.Person;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.openengsb.core.config.ServiceManager;
+import org.openengsb.core.config.descriptor.ServiceDescriptor;
+import org.openengsb.ui.web.service.ManagedServices;
 
 public class TestClientForm extends Form {
 
+
+    @SpringBean
+    ManagedServices managedServices;
+
     private String messageContent = "";
     private TextArea<String> messageContentInput;
+    private String context = "";
+    private TextField<String> contextInput;
+    private DropDownChoice dropDownChoice;
 
     public TestClientForm(String id) {
         super(id);
-        messageContentInput = new TextArea<String>("testclientForm.messageContent", new Model<String>("String"));
+        messageContentInput = new TextArea<String>("testclientForm.messageContent", new Model<String>());
         messageContentInput.setRequired(true);
+        contextInput = new TextField<String>("testclientForm.messageContext");
+        contextInput.setRequired(true);
 
+        IModel managedServicesModels = new LoadableDetachableModel() {
+            @Override
+            public Object load() {
+                return managedServices.getManagedServices();
+            }
+        };
+        IChoiceRenderer renderer = new ChoiceRenderer() {
+            public Object getDisplayValue(Object obj) {
+                ServiceDescriptor desc = ((ServiceManager) obj).getDescriptor();
+                return desc.getName();
+            }
 
-        this.add(messageContentInput);
+            public String getIdValue(Object obj, int index) {
+                ServiceDescriptor desc = ((ServiceManager) obj).getDescriptor();
+                return desc.getServiceInterfaceId();
+            }
+        };
 
+        dropDownChoice = new DropDownChoice("testclientForm.managedServices", managedServicesModels);
+        dropDownChoice.setChoiceRenderer(renderer);
 
+        Button sendButton = new Button("testclientForm.send");
+        Button resetButton = new Button("testclientForm.reset") {
+            @Override
+            public void onSubmit() {
+                // just set a new instance of the page
+                setResponsePage(TestClientPage.class);
+            }
+        }.setDefaultFormProcessing(false);
+
+        add(dropDownChoice);
+        add(contextInput);
+        add(messageContentInput);
+        add(sendButton);
+        add(resetButton);
     }
+
 
     @Override
     protected void onSubmit() {
         messageContent = messageContentInput.getInput();
-        
+        context = contextInput.getInput();
+        dropDownChoice.getValue();
+        // todo get instance from the selected service
+
+    }
+
+    @Override
+    protected void onError() {
+        // do something special when an error occurs,
+        // instead of displaying messages.
     }
 }

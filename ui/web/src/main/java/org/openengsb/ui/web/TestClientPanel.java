@@ -25,7 +25,7 @@ public class TestClientPanel extends Panel {
 
     public TestClientPanel(String id) {
         super(id);
-        Form form = new Form("testclientForm");
-        
+        TestClientForm form = new TestClientForm("testclientForm.form");
+        add(form);
     }
 }

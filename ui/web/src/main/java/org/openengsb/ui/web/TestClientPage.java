@@ -25,6 +25,7 @@ public class TestClientPage extends BasePage {
     public TestClientPage() {
 
         this.add(new Label("testclient.header","Test Client"));
+        
         this.add(new TestClientPanel("testclient.panel"));
     }
 
