@@ -24,6 +24,18 @@
     <artifactId>openengsb-ui-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
+  <repositories>
+    <repository>
+      <id>repository.springsource.com.release</id>
+      <name>SpringSource OBR - Release</name>
+      <url>http://repository.springsource.com/maven/bundles/release</url>
+    </repository>
+    <repository>
+      <id>repository.springsource.com.external</id>
+      <name>SpringSource OBR - External</name>
+      <url>http://repository.springsource.com/maven/bundles/external</url>
+    </repository>
+  </repositories>
 
   <properties>
     <bundle.symbolicName>org.openengsb.ui.web</bundle.symbolicName>
@@ -152,6 +164,14 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- log4J -->
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>com.springsource.slf4j.log4j</artifactId>
+      <version>1.6.1</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
 </project>
