@@ -20,32 +20,32 @@
 <body>
     <wicket:panel>
         <!-- panel start -->
-       <form wicket:id="testclientForm.form">
+       <form wicket:id="testclient.form">
            <div id="header">
                <td colspan="8">
-                   <wicket:message key="testclientForm.context">[testclientForm.context]</wicket:message>
-                   <input wicket:id="testclientForm.messageContext" type="text" size="5"/>
+                   <wicket:message key="testclient.form.context">[testclient.form.context]</wicket:message>
+                   <input wicket:id="testclient.form.messageContext" type="text" size="5"/>
 
-                   <wicket:message key="testclientForm.endpoint">[testclientForm.endpoint]</wicket:message>
+                   <wicket:message key="testclient.form.endpoint">[testclient.form.endpoint]</wicket:message>
                    
-                   <select wicket:id="testclientForm.managedServices"></select>
+                   <select wicket:id="testclient.form.domainProvider"></select>
 
-                   <wicket:message key="testclientForm.operation">[testclientForm.operation]</wicket:message>
+                   <wicket:message key="testclient.form.operation">[testclient.form.operation]</wicket:message>
 
-                   <wicket:message key="testclientForm.mep">[testclientForm.mep]</wicket:message>
+                   <wicket:message key="testclient.form.mep">[testclient.form.mep]</wicket:message>
 
                </td>
            </div>
            <br/>
-           <textarea wicket:id="testclientForm.messageContent" rows="20"
-                     cols="40">[testclientForm.messageContent]</textarea>
+           <textarea wicket:id="testclient.form.messageContent" rows="20"
+                     cols="40">[testclient.form.messageContent]</textarea>
 
            <br/>
 
            <div id="buttons">
                <td colspan="2">
-                   <input type="submit" wicket:id="testclientForm.send" value="send"/>
-                   <input type="submit" wicket:id="testclientForm.reset" value="reset"/>
+                   <input type="submit" wicket:id="testclient.form.send" value="send"/>
+                   <input type="submit" wicket:id="testclient.form.reset" value="reset"/>
                </td>
            </div>
         </form>

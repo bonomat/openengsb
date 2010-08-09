@@ -23,9 +23,15 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 public class TestClientPanel extends Panel {
 
+
     public TestClientPanel(String id) {
         super(id);
-        TestClientForm form = new TestClientForm("testclientForm.form");
+        add(new TestClientForm("testclient.form"));
+    }
+
+    public TestClientPanel(String id, TestClientForm form) {
+        super(id);
         add(form);
     }
+
 }

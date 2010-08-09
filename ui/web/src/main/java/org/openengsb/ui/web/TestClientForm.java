@@ -17,28 +17,18 @@
  */
 package org.openengsb.ui.web;
 
-import org.apache.velocity.test.provider.Person;
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.openengsb.core.config.ServiceManager;
-import org.openengsb.core.config.descriptor.ServiceDescriptor;
-import org.openengsb.ui.web.service.ManagedServices;
+import org.openengsb.core.config.DomainProvider;
+import org.openengsb.ui.web.service.DomainService;
 
 public class TestClientForm extends Form {
 
-
     @SpringBean
-    ManagedServices managedServices;
+    DomainService domainServices;
 
     private String messageContent = "";
     private TextArea<String> messageContentInput;
@@ -48,34 +38,44 @@ public class TestClientForm extends Form {
 
     public TestClientForm(String id) {
         super(id);
-        messageContentInput = new TextArea<String>("testclientForm.messageContent", new Model<String>());
+        initComponents();
+    }
+
+    // for tests
+    public TestClientForm(String id, DomainService domainServices) {
+        super(id);
+        this.domainServices = domainServices;
+        initComponents();
+    }
+
+    private void initComponents() {
+        messageContentInput = new TextArea<String>("testclient.form.messageContent", new Model<String>());
         messageContentInput.setRequired(true);
-        contextInput = new TextField<String>("testclientForm.messageContext");
+        contextInput = new TextField<String>("testclient.form.messageContext");
         contextInput.setRequired(true);
 
-        IModel managedServicesModels = new LoadableDetachableModel() {
+        IModel domainProviderModels = new LoadableDetachableModel() {
             @Override
             public Object load() {
-                return managedServices.getManagedServices();
+                return domainServices.getDomains();
             }
         };
         IChoiceRenderer renderer = new ChoiceRenderer() {
             public Object getDisplayValue(Object obj) {
-                ServiceDescriptor desc = ((ServiceManager) obj).getDescriptor();
-                return desc.getName();
+                return ((DomainProvider) obj).getName();
             }
 
             public String getIdValue(Object obj, int index) {
-                ServiceDescriptor desc = ((ServiceManager) obj).getDescriptor();
-                return desc.getServiceInterfaceId();
+                String domainProviderId = ((DomainProvider) obj).getId();
+                return domainProviderId;
             }
         };
 
-        dropDownChoice = new DropDownChoice("testclientForm.managedServices", managedServicesModels);
+        dropDownChoice = new DropDownChoice("testclient.form.domainProvider", domainProviderModels);
         dropDownChoice.setChoiceRenderer(renderer);
 
-        Button sendButton = new Button("testclientForm.send");
-        Button resetButton = new Button("testclientForm.reset") {
+        Button sendButton = new Button("testclient.form.send");
+        Button resetButton = new Button("testclient.form.reset") {
             @Override
             public void onSubmit() {
                 // just set a new instance of the page
@@ -102,7 +102,8 @@ public class TestClientForm extends Form {
 
     @Override
     protected void onError() {
-        // do something special when an error occurs,
-        // instead of displaying messages.
+        // todo do something special when an error occurs, instead of displaying messages.
+
     }
+
 }
