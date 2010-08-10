@@ -17,21 +17,18 @@ package org.openengsb.ui.web;
 
 import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openengsb.core.config.DomainProvider;
 import org.openengsb.core.config.ServiceManager;
+import org.openengsb.core.config.descriptor.ServiceDescriptor;
 import org.openengsb.ui.web.service.DomainService;
 import org.openengsb.ui.web.service.ManagedServices;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class TestClientTest {
@@ -43,7 +40,7 @@ public class TestClientTest {
     public void setUp() {
         wicketTester = new WicketTester();
 
-        TestClientForm tcform = new TestClientForm("testclient.form", mockServices());
+        TestClientForm tcform = new TestClientForm("testclient.form", mockManagedServices());
         TestClientPanel tcpanel = new TestClientPanel("testclient.panel", tcform);
         tcpage = new TestClientPage(tcpanel);
 
@@ -60,12 +57,17 @@ public class TestClientTest {
 
     @Test
     public void testFormSubmit() {
+        wicketTester.startPage(tcpage);
         FormTester form = wicketTester.newFormTester("testclient.panel:testclient.form");
         form.setValue("testclient.form.messageContent", "Test Messsage");
+        //form.submit();
+        //wicketTester.assertRenderedPage(tcpage.getClass());
+        
         // TODO write test for form submit
     }
 
-    private DomainService mockServices() {
+
+    private DomainService mockDomainServices() {
         DomainService ds = mock(DomainService.class);
         List<DomainProvider> dsList = new ArrayList<DomainProvider>();
         DomainProvider ms = mock(DomainProvider.class);
@@ -73,6 +75,22 @@ public class TestClientTest {
         when(ms.getId()).thenReturn("DomainID");
         dsList.add(ms);
         when(ds.getDomains()).thenReturn(dsList);
+        return ds;
+
+    }
+
+    private ManagedServices mockManagedServices() {
+        ManagedServices ds = mock(ManagedServices.class);
+        List<ServiceManager> dsList = new ArrayList<ServiceManager>();
+        ServiceManager ms = mock(ServiceManager.class);
+        ServiceDescriptor sd = new ServiceDescriptor();
+        ServiceDescriptor.Builder builder = sd.builder();
+        builder.name("ServiceName");
+        builder.id("ServiceID");
+        builder.implementsInterface("ImplementsInterfaceID");
+        when(ms.getDescriptor()).thenReturn(sd);
+        dsList.add(ms);
+        when(ds.getManagedServices()).thenReturn(dsList);
         return ds;
 
     }
