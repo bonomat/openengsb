@@ -19,13 +19,12 @@ package org.openengsb.ui.web;
 
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.pages.InternalErrorPage;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.openengsb.core.config.ServiceManager;
 import org.openengsb.ui.web.service.ManagedServices;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class TestClientForm extends Form {
@@ -36,9 +35,8 @@ public class TestClientForm extends Form {
 
     private TextArea<String> messageContentInput;
     private TextField<String> contextInput;
-    private DropDownChoice managedServicesDownChoice;
-    private List<ServiceManager> serviceManager;
-    
+
+
     public TestClientForm(String id) {
         super(id);
         initComponents();
@@ -52,30 +50,14 @@ public class TestClientForm extends Form {
     }
 
     private void initComponents() {
+        //input fields
         messageContentInput = new TextArea<String>("testclient.form.messageContent", new Model<String>());
-        messageContentInput.setRequired(true);
         contextInput = new TextField<String>("testclient.form.messageContext");
-        contextInput.setRequired(true);
-        serviceManager = managedServices.getManagedServices();
 
-        IModel manageServices = new LoadableDetachableModel() {
-            @Override
-            public Object load() {
-                return serviceManager;
-            }
-        };
-        IChoiceRenderer renderer = new ChoiceRenderer() {
-            public Object getDisplayValue(Object obj) {
-                return ((ServiceManager) obj).getDescriptor().getName();
-            }
+        //drop down choices
+        DropDownChoice managedServicesDropDownChoice = initManagedServices();
+        DropDownChoice<String> operationDropDownChoice = initMethods();
 
-            public String getIdValue(Object obj, int index) {
-               return ((ServiceManager) obj).getDescriptor().getId();
-            }
-        };
-
-        managedServicesDownChoice = new DropDownChoice("testclient.form.managedServices", manageServices);
-        managedServicesDownChoice.setChoiceRenderer(renderer);
 
         Button sendButton = new Button("testclient.form.submit");
         Button resetButton = new Button("testclient.form.reset") {
@@ -86,11 +68,34 @@ public class TestClientForm extends Form {
             }
         }.setDefaultFormProcessing(false);
 
-        add(managedServicesDownChoice);
+        add(managedServicesDropDownChoice);
+        add(operationDropDownChoice);
         add(contextInput);
         add(messageContentInput);
         add(sendButton);
         add(resetButton);
+    }
+
+    private DropDownChoice initManagedServices() {
+
+        IChoiceRenderer renderer = new ChoiceRenderer() {
+            public Object getDisplayValue(Object obj) {
+                return ((ServiceManager) obj).getDescriptor().getName();
+            }
+
+            public String getIdValue(Object obj, int index) {
+                return (String)((ServiceManager) obj).getDescriptor().getId();
+            }
+        };
+        DropDownChoice<ServiceManager> managedServicesDropDownChoice = new DropDownChoice<ServiceManager>("testclient.form.managedServices", managedServices.getManagedServices());
+        managedServicesDropDownChoice.setChoiceRenderer(renderer);
+        return managedServicesDropDownChoice;
+    }
+
+    private DropDownChoice<String> initMethods() {
+        //TODO load methods to be tested
+        List<String> methods = Arrays.asList("Load methods");
+        return new DropDownChoice<String>("testclient.form.operations", methods);
     }
 
 
@@ -99,16 +104,12 @@ public class TestClientForm extends Form {
 
         String messageContent = messageContentInput.getInput();
         String context = contextInput.getInput();
-        String domainProvider = managedServicesDownChoice.getValue();
-
-       
         // todo get instance from the selected service
-
     }
 
     @Override
     protected void onError() {
-         setResponsePage(InternalErrorPage.class);
+        setResponsePage(InternalErrorPage.class);
     }
 
 }
