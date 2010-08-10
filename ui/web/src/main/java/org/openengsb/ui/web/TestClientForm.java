@@ -18,33 +18,36 @@
 package org.openengsb.ui.web;
 
 import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.pages.InternalErrorPage;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.openengsb.core.config.DomainProvider;
-import org.openengsb.ui.web.service.DomainService;
+import org.openengsb.core.config.ServiceManager;
+import org.openengsb.ui.web.service.ManagedServices;
+
+import java.util.List;
 
 public class TestClientForm extends Form {
 
+
     @SpringBean
-    DomainService domainServices;
+    ManagedServices managedServices;
 
-    private String messageContent = "";
     private TextArea<String> messageContentInput;
-    private String context = "";
     private TextField<String> contextInput;
-    private DropDownChoice dropDownChoice;
-
+    private DropDownChoice managedServicesDownChoice;
+    private List<ServiceManager> serviceManager;
+    
     public TestClientForm(String id) {
         super(id);
         initComponents();
     }
 
     // for tests
-    public TestClientForm(String id, DomainService domainServices) {
+    public TestClientForm(String id, ManagedServices managedServices) {
         super(id);
-        this.domainServices = domainServices;
+        this.managedServices = managedServices;
         initComponents();
     }
 
@@ -53,37 +56,37 @@ public class TestClientForm extends Form {
         messageContentInput.setRequired(true);
         contextInput = new TextField<String>("testclient.form.messageContext");
         contextInput.setRequired(true);
+        serviceManager = managedServices.getManagedServices();
 
-        IModel domainProviderModels = new LoadableDetachableModel() {
+        IModel manageServices = new LoadableDetachableModel() {
             @Override
             public Object load() {
-                return domainServices.getDomains();
+                return serviceManager;
             }
         };
         IChoiceRenderer renderer = new ChoiceRenderer() {
             public Object getDisplayValue(Object obj) {
-                return ((DomainProvider) obj).getName();
+                return ((ServiceManager) obj).getDescriptor().getName();
             }
 
             public String getIdValue(Object obj, int index) {
-                String domainProviderId = ((DomainProvider) obj).getId();
-                return domainProviderId;
+               return ((ServiceManager) obj).getDescriptor().getId();
             }
         };
 
-        dropDownChoice = new DropDownChoice("testclient.form.domainProvider", domainProviderModels);
-        dropDownChoice.setChoiceRenderer(renderer);
+        managedServicesDownChoice = new DropDownChoice("testclient.form.managedServices", manageServices);
+        managedServicesDownChoice.setChoiceRenderer(renderer);
 
-        Button sendButton = new Button("testclient.form.send");
+        Button sendButton = new Button("testclient.form.submit");
         Button resetButton = new Button("testclient.form.reset") {
             @Override
             public void onSubmit() {
-                // just set a new instance of the page
+                // just reload this page
                 setResponsePage(TestClientPage.class);
             }
         }.setDefaultFormProcessing(false);
 
-        add(dropDownChoice);
+        add(managedServicesDownChoice);
         add(contextInput);
         add(messageContentInput);
         add(sendButton);
@@ -92,18 +95,20 @@ public class TestClientForm extends Form {
 
 
     @Override
-    protected void onSubmit() {
-        messageContent = messageContentInput.getInput();
-        context = contextInput.getInput();
-        dropDownChoice.getValue();
+    public void onSubmit() {
+
+        String messageContent = messageContentInput.getInput();
+        String context = contextInput.getInput();
+        String domainProvider = managedServicesDownChoice.getValue();
+
+       
         // todo get instance from the selected service
 
     }
 
     @Override
     protected void onError() {
-        // todo do something special when an error occurs, instead of displaying messages.
-
+         setResponsePage(InternalErrorPage.class);
     }
 
 }
